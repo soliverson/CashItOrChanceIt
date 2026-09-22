@@ -1,79 +1,169 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Colleen's 75th - Deal or No Deal Game</title>
+
+  <title>Cash It or Chance It | MadeToPlayGames</title>
+
+  <meta
+    name="description"
+    content="Cash It or Chance It - a personalized interactive party game by MadeToPlayGames."
+  >
+
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
+
   <!-- Intro Video Container -->
-<div id="introVideoContainer">
-  <video id="introVideo" playsinline>
-    <source src="videos/intro.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <div id="introVideoContainer">
 
-  <div id="introButtons">
-    <button id="introPlayButton">Play Intro</button>
-    <button id="introFullScreenButton">Full Screen</button>
-    <button id="skipIntroButton">Skip Intro</button>
+    <video id="introVideo" playsinline>
+      <source src="videos/intro.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <div id="introButtons">
+      <button id="introPlayButton">Play Intro</button>
+      <button id="introFullScreenButton">Full Screen</button>
+      <button id="skipIntroButton">Skip Intro</button>
+    </div>
+
   </div>
-</div>
 
-  <!-- Optional loading overlay -->
+
+  <!-- Loading Overlay -->
   <div id="loadingOverlay">Loading...</div>
 
+
+  <!-- Header -->
   <header>
+
     <div id="headerContent">
-      <img id="headerPhoto" src="images/Colleen.webp" alt="Colleen's 75th Birthday" loading="lazy">
+
+      <img
+        id="headerPhoto"
+        src="images/Susan.webp"
+        alt="Susan's 75th Birthday"
+        loading="lazy"
+      >
+
       <div id="headerTitles">
-        <h1>Colleen's 75th</h1>
-        <h1>Deal or No Deal</h1>
+        <h1>Susan's 75th</h1>
+        <h1>Cash It or Chance It</h1>
       </div>
-      <!-- Header Buttons Container -->
+
+
+      <!-- Header Buttons -->
       <div id="headerButtons">
-        <button id="fullScreenBtn" onclick="toggleFullScreen()">Full Screen</button>
-        <button id="watchIntroBtn">Watch Intro Again</button>
+
+        <button
+          id="fullScreenBtn"
+          onclick="toggleFullScreen()"
+        >
+          Full Screen
+        </button>
+
+        <button id="watchIntroBtn">
+          Watch Intro Again
+        </button>
+
       </div>
+
     </div>
+
   </header>
 
+
+  <!-- Game -->
   <main>
+
     <section id="briefcasesSection">
+
       <div id="briefcasesContainer"></div>
+
       <div id="briefcasesInfo">
-        <p id="gameMessage">Click a briefcase to choose your personal box.</p>
+        <p id="gameMessage">
+          Choose a photo to make your personal pick.
+        </p>
       </div>
+
     </section>
 
+
+    <!-- Prize Board -->
     <aside id="prizesSection">
+
       <h2>Prizes</h2>
       <ul id="prizeBoard"></ul>
-      <h2>Previous Bank Offers</h2>
+
+      <h2>Previous Offers</h2>
       <ul id="offersHistory"></ul>
+
     </aside>
+
   </main>
 
+
+  <!-- Fireworks -->
   <div id="fireworksContainer"></div>
 
-  <!-- Audio elements -->
-  <audio id="clickSound" src="audio/click.mp3" preload="auto"></audio>
-  <audio id="offerSound" src="audio/offer.mp3" preload="auto"></audio>
-  <audio id="declineSound" src="audio/decline.mp3" preload="auto"></audio>
-  <audio id="applause" src="audio/applause.mp3" preload="auto"></audio>
-  <audio id="suspenseMusic" src="audio/jaws.mp3" preload="auto"></audio>
-  <audio id="finalSwapMusic" src="audio/finalswap.mp3" preload="auto"></audio> <!-- New -->
+
+  <!-- Audio -->
+
+  <audio
+    id="clickSound"
+    src="audio/click.mp3"
+    preload="auto"
+  ></audio>
+
+  <audio
+    id="offerSound"
+    src="audio/offer.mp3"
+    preload="auto"
+  ></audio>
+
+  <audio
+    id="declineSound"
+    src="audio/decline.mp3"
+    preload="auto"
+  ></audio>
+
+  <audio
+    id="applause"
+    src="audio/applause.mp3"
+    preload="auto"
+  ></audio>
+
+  <audio
+    id="suspenseMusic"
+    src="audio/jaws.mp3"
+    preload="auto"
+  ></audio>
+
+  <audio
+    id="finalSwapMusic"
+    src="audio/finalswap.mp3"
+    preload="auto"
+  ></audio>
+
+
+  <!-- Offer Modal -->
 
   <div id="offerModal" class="modal">
+
     <div class="modal-content">
       <div id="offerDetails"></div>
     </div>
+
   </div>
 
+
   <!-- Scripts -->
+
   <script defer src="scripts/data.js"></script>
   <script defer src="scripts/render.js"></script>
   <script defer src="scripts/sounds.js"></script>
@@ -81,13 +171,22 @@
   <script defer src="scripts/effects.js"></script>
   <script defer src="scripts/screen.js"></script>
   <script defer src="scripts/intro.js"></script>
-  <script defer>
+
+
+  <script>
     window.onload = function() {
-      document.getElementById("loadingOverlay").style.display = "none";
+
+      document.getElementById("loadingOverlay").style.display =
+        "none";
+
       renderBriefcases();
+
       updateSidePanels();
+
       showRoundModal(1);
     };
   </script>
+
 </body>
+
 </html>

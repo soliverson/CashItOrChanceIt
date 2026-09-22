@@ -2,7 +2,7 @@
 // GAME STATE / FLAGS
 // ======================================================
 
-// Prevents the No Deal button from being handled twice.
+// Prevents the Chance It button from being handled twice.
 let declineHandled = false;
 
 
@@ -13,7 +13,7 @@ let declineHandled = false;
 function briefcaseClicked(box) {
 
   // ------------------------------------------------------
-  // FIRST CLICK: Choose the player's personal box
+  // FIRST CLICK: Choose the player's personal pick
   // ------------------------------------------------------
   if (!chosenBox) {
 
@@ -21,34 +21,34 @@ function briefcaseClicked(box) {
 
     const casesToOpen = rounds[currentRound];
 
-    // Update the board so the selected personal box
+    // Update the board so the selected personal pick
     // is highlighted immediately.
     renderBriefcases();
     updateSidePanels();
 
-    // Prevent any other briefcases from being clicked
-    // while the personal-box reveal is showing.
+    // Prevent any other photos from being clicked
+    // while the personal-pick reveal is showing.
     offerActive = true;
 
     const briefcase =
       document.getElementById("briefcase-" + box);
 
-    // Make a large clone of the chosen personal box.
+    // Make a large clone of the chosen personal pick.
     const clone = briefcase.cloneNode(true);
 
     clone.innerHTML = `
       <img
         class="center-img"
         src="${boxImages[box]}"
-        alt="Personal Box ${box}"
+        alt="Personal Pick ${box}"
       >
 
       <div class="personal-box-message">
-        THIS IS YOUR BOX!
+        THIS IS YOUR PICK!
       </div>
 
       <div class="center-amount">
-        Box #${box}
+        Pick #${box}
       </div>
     `;
 
@@ -62,7 +62,7 @@ function briefcaseClicked(box) {
 
 
     // ------------------------------------------------------
-    // Show personal box reveal for 4 seconds
+    // Show personal pick reveal for 5 seconds
     // ------------------------------------------------------
     setTimeout(() => {
 
@@ -71,14 +71,14 @@ function briefcaseClicked(box) {
       // After the reveal, show the instruction popup.
       document.getElementById("offerDetails").innerHTML = `
         <p class="message">
-          Your personal box is
+          Your personal pick is
           <strong>#${box}</strong>
         </p>
 
         <p class="cases-to-open">
           Now choose
           <strong>${casesToOpen}</strong>
-          box${casesToOpen === 1 ? "" : "es"} to open.
+          photo${casesToOpen === 1 ? "" : "s"} to reveal.
         </p>
       `;
 
@@ -93,7 +93,7 @@ function briefcaseClicked(box) {
           "none";
 
         document.getElementById("gameMessage").textContent =
-          `Choose ${casesToOpen} box${casesToOpen === 1 ? "" : "es"} to open.`;
+          `Choose ${casesToOpen} photo${casesToOpen === 1 ? "" : "s"} to reveal.`;
 
         offerActive = false;
 
@@ -109,10 +109,10 @@ function briefcaseClicked(box) {
   // NORMAL GAME PLAY
   // ------------------------------------------------------
 
-  // Don't allow the player's personal box to be opened.
+  // Don't allow the player's personal pick to be revealed.
   if (box === chosenBox) return;
 
-  // Don't allow an already-opened box to be opened again.
+  // Don't allow an already-revealed photo to be selected again.
   if (openedStatus[box]) return;
 
   openBriefcase(box);
@@ -122,7 +122,7 @@ function briefcaseClicked(box) {
 
 
 // ======================================================
-// OPEN A BRIEFCASE
+// REVEAL A PHOTO
 // ======================================================
 
 function openBriefcase(box) {
@@ -169,7 +169,7 @@ function openBriefcase(box) {
   }
 
 
-  // Count opened box.
+  // Count revealed photo.
   openedCount++;
 
   renderBriefcases();
@@ -177,7 +177,7 @@ function openBriefcase(box) {
 
 
   // ------------------------------------------------------
-  // Find unopened boxes besides personal box
+  // Find unrevealed picks besides personal pick
   // ------------------------------------------------------
 
   const unopened = boxes.filter(
@@ -186,7 +186,7 @@ function openBriefcase(box) {
 
 
   // ------------------------------------------------------
-  // Update instructions after each opened box
+  // Update instructions after each revealed photo
   // ------------------------------------------------------
 
   if (currentRound < rounds.length) {
@@ -203,13 +203,13 @@ function openBriefcase(box) {
     if (casesLeftThisRound > 0) {
 
       document.getElementById("gameMessage").textContent =
-        `Choose ${casesLeftThisRound} more box${casesLeftThisRound === 1 ? "" : "es"} to open.`;
+        `Choose ${casesLeftThisRound} more photo${casesLeftThisRound === 1 ? "" : "s"} to reveal.`;
     }
   }
 
 
   // ------------------------------------------------------
-  // FINAL TWO BOXES
+  // FINAL TWO PICKS
   // ------------------------------------------------------
 
   if (
@@ -230,34 +230,34 @@ function openBriefcase(box) {
 
 
   // ------------------------------------------------------
-  // BANKER OFFER
+  // OFFER
   // ------------------------------------------------------
 
   if (
-  currentRound < rounds.length &&
-  openedCount >= rounds[currentRound]
-) {
+    currentRound < rounds.length &&
+    openedCount >= rounds[currentRound]
+  ) {
 
-  offerActive = true;
+    offerActive = true;
 
-  document.getElementById("gameMessage").textContent =
-    "Waiting for the banker...";
+    document.getElementById("gameMessage").textContent =
+      "Waiting for your offer...";
 
-  // Wait until the enlarged picture disappears.
-  setTimeout(() => {
+    // Wait until the enlarged picture disappears.
+    setTimeout(() => {
 
-    playSound("offerSound");
+      playSound("offerSound");
 
-    offerDeal();
+      offerDeal();
 
-    // Reset opened box count for next round.
-    openedCount = 0;
+      // Reset revealed photo count for next round.
+      openedCount = 0;
 
-  }, 5500);
-}
+    }, 5500);
+  }
 
 
-  // Remove large opened-box image after 5 seconds.
+  // Remove large revealed-photo image after 5 seconds.
   setTimeout(() => {
     clone.remove();
   }, 5000);
@@ -283,22 +283,22 @@ function finalSwap() {
     </p>
 
     <p class="message">
-      Do you want to keep your personal box
-      or swap it with the last remaining box?
+      Do you want to keep your personal pick
+      or swap it with the last remaining pick?
     </p>
 
     <button
       class="deal"
       onclick="keepBox()"
     >
-      Keep My Box
+      Keep My Pick
     </button>
 
     <button
       class="decline"
       onclick="swapBox()"
     >
-      Swap Box
+      Swap My Pick
     </button>
   `;
 
@@ -313,7 +313,7 @@ function finalSwap() {
 
 
 // ======================================================
-// KEEP PERSONAL BOX
+// KEEP PERSONAL PICK
 // ======================================================
 
 function keepBox() {
@@ -323,7 +323,7 @@ function keepBox() {
 
   const resultHTML = `
     <p class="message">
-      You kept your personal box
+      You kept your personal pick
       (#${chosenBox}).
     </p>
 
@@ -354,7 +354,7 @@ function keepBox() {
 
 
 // ======================================================
-// SWAP PERSONAL BOX
+// SWAP PERSONAL PICK
 // ======================================================
 
 function swapBox() {
@@ -372,11 +372,11 @@ function swapBox() {
 
   const resultHTML = `
     <p class="message">
-      You swapped your box.
+      You swapped your pick.
     </p>
 
     <p class="message">
-      Your new box (#${chosenBox}) contains:
+      Your new pick (#${chosenBox}) contains:
       $${boxValues[chosenBox].toLocaleString(undefined, {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
@@ -402,14 +402,14 @@ function swapBox() {
 
 
 // ======================================================
-// BANKER OFFER CALCULATION
+// OFFER CALCULATION
 // ======================================================
 
 function getBankersOffer(values) {
   const sum = values.reduce((acc, curr) => acc + curr, 0);
   const average = sum / values.length;
 
-  // Banker becomes more generous as the game progresses.
+  // Offers become more generous as the game progresses.
   const offerPercentages = [
     0.35, // Round 1
     0.45, // Round 2
@@ -437,13 +437,14 @@ function getBankersOffer(values) {
   }
 
   // Round to the nearest dollar for cleaner offers.
-offer = Math.round(offer / 5) * 5;
+  offer = Math.round(offer / 5) * 5;
+
   return offer;
 }
 
 
 // ======================================================
-// SHOW BANKER OFFER
+// SHOW OFFER
 // ======================================================
 
 function offerDeal() {
@@ -457,7 +458,7 @@ function offerDeal() {
 
   const offerHTML = `
     <p class="message">
-      The banker offers you:
+      Your offer is:
     </p>
 
     <p class="bank-offer">
@@ -468,21 +469,21 @@ function offerDeal() {
     </p>
 
     <p class="message">
-      Deal or No Deal?
+      Cash It or Chance It?
     </p>
 
     <button
       class="deal"
       onclick="acceptDeal(${offer})"
     >
-      Deal
+      Cash It
     </button>
 
     <button
       class="decline"
       onclick="declineDealModal()"
     >
-      No Deal
+      Chance It
     </button>
   `;
 
@@ -497,7 +498,7 @@ function offerDeal() {
 
 
 // ======================================================
-// ACCEPT DEAL
+// CASH IT
 // ======================================================
 
 function acceptDeal(offer) {
@@ -506,7 +507,7 @@ function acceptDeal(offer) {
 
   const resultHTML = `
     <p class="message">
-      You accepted the deal of
+      You cashed it for
       $${offer.toLocaleString(undefined, {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
@@ -514,7 +515,7 @@ function acceptDeal(offer) {
     </p>
 
     <p class="message">
-      Your personal box (#${chosenBox}) contained:
+      Your personal pick (#${chosenBox}) contained:
       $${boxValues[chosenBox].toLocaleString(undefined, {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
@@ -540,7 +541,7 @@ function acceptDeal(offer) {
 
 
 // ======================================================
-// NO DEAL
+// CHANCE IT
 // ======================================================
 
 function declineDealModal() {
@@ -577,12 +578,12 @@ function declineDealModal() {
 
 
   // ------------------------------------------------------
-  // Tell player how many boxes to choose
+  // Tell player how many photos to reveal
   // ------------------------------------------------------
 
   document.getElementById("offerDetails").innerHTML = `
     <p class="message">
-      NO DEAL!
+      CHANCE IT!
     </p>
 
     <p class="round-number">
@@ -592,7 +593,7 @@ function declineDealModal() {
     <p class="cases-to-open">
       Choose
       <strong>${casesToOpen}</strong>
-      more box${casesToOpen === 1 ? "" : "es"} to open.
+      more photo${casesToOpen === 1 ? "" : "s"} to reveal.
     </p>
   `;
 
@@ -600,7 +601,7 @@ function declineDealModal() {
     "flex";
 
 
-  // Keep No Deal / next-round instruction visible
+  // Keep Chance It / next-round instruction visible
   // for 6 seconds.
   setTimeout(() => {
 
@@ -612,7 +613,7 @@ function declineDealModal() {
     updateSidePanels();
 
     document.getElementById("gameMessage").textContent =
-      `Choose ${casesToOpen} box${casesToOpen === 1 ? "" : "es"} to open.`;
+      `Choose ${casesToOpen} photo${casesToOpen === 1 ? "" : "s"} to reveal.`;
 
     offerActive = false;
 
@@ -645,7 +646,7 @@ function showRoundModal(roundDisplay) {
   // ------------------------------------------------------
 
   // At the very beginning,
-  // ONLY ask the player to choose a personal box.
+  // ONLY ask the player to choose a personal pick.
   if (
     roundDisplay === 1 &&
     !chosenBox
@@ -653,11 +654,11 @@ function showRoundModal(roundDisplay) {
 
     roundHTML = `
       <p class="message">
-        Welcome to Deal or No Deal!
+        Welcome to Cash It or Chance It!
       </p>
 
       <p class="cases-to-open">
-        Choose your personal box.
+        Choose your personal pick.
       </p>
     `;
 
@@ -681,7 +682,7 @@ function showRoundModal(roundDisplay) {
       <p class="cases-to-open">
         Choose
         <strong>${casesToOpen}</strong>
-        box${casesToOpen === 1 ? "" : "es"} to open.
+        photo${casesToOpen === 1 ? "" : "s"} to reveal.
       </p>
     `;
   }
@@ -694,7 +695,7 @@ function showRoundModal(roundDisplay) {
     "flex";
 
 
-  // Initial "Choose your personal box"
+  // Initial "Choose your personal pick"
   // message stays up for 5 seconds.
   setTimeout(() => {
 
@@ -708,7 +709,7 @@ function showRoundModal(roundDisplay) {
     if (!chosenBox) {
 
       document.getElementById("gameMessage").textContent =
-        "Choose your personal box.";
+        "Choose your personal pick.";
     }
 
   }, 5000);
